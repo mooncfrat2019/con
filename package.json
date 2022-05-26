@@ -9,16 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/eslint-plugin-next": "^12.1.6",
+    "@vkontakte/icons": "^1.163.0",
+    "@vkontakte/vk-bridge": "^2.6.1",
+    "@vkontakte/vkjs": "^0.22.2",
+    "@vkontakte/vkui": "^4.31.0",
+    "dom-to-image": "^2.6.0",
+    "fs": "^0.0.1-security",
+    "html2canvas": "^1.4.1",
     "next": "12.1.6",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-color": "^2.19.3",
+    "react-dom": "18.1.0",
+    "webshot": "^0.18.0"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.5",
-    "eslint": "8.16.0",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": ">=5.16.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-config-next": "12.1.6",
+    "eslint-plugin-react": "^7.30.0",
     "typescript": "4.7.2"
   }
 }
