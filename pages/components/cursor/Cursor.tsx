@@ -1,27 +1,50 @@
-import React from 'react';
-
-import {useMousePosition} from '../../service/hooks';
+import React, {useEffect, useState} from 'react';
 
 import styles from './Cursor.module.css';
 import {classNames} from '@vkontakte/vkui';
 
 interface CursorProps {
-    icon: React.ReactElement,
+    children: React.ReactElement,
 }
 
 type Cursor = React.FC<CursorProps>
 
-const Cursor: Cursor = ({icon}) => {
-  // 1.
-  const {x, y} = useMousePosition();
+interface MousePosition {
+  x: number,
+  y: number
+}
+
+type UseMousePosition = () => MousePosition;
+const Cursor: Cursor = ({children}) => {
+  const useMousePosition: UseMousePosition = () => {
+    const [mousePosition, setMousePosition] = useState<MousePosition>({x: 0, y: 0});
+
+    useEffect(() => {
+      console.log('mousePosition', mousePosition);
+    }, [mousePosition]);
+
+    useEffect(() => {
+      const mouseMoveHandler = (event: MouseEvent) => {
+        const {clientX, clientY} = event;
+        setMousePosition({x: clientX, y: clientY});
+      };
+      document.addEventListener('mousemove', mouseMoveHandler);
+
+      return () => {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+      };
+    }, []);
+
+    return mousePosition;
+  };
+  const mousePosition = useMousePosition();
+
   return (
-    <>
-      <div className={classNames(styles.cursor, 'cursorProto')}
-        style={{left: `${x}px`, top: `${y}px`}}
-      >
-        {icon}
-      </div>
-    </>
+    <div className={classNames(styles.cursor, 'cursorProto')}
+      style={{left: mousePosition.x + 'px', top: mousePosition.y + 'px'}}
+    >
+      {children}
+    </div>
   );
 };
 

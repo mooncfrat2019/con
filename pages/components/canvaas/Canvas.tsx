@@ -81,7 +81,7 @@ const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, e
 };
 
 const Canvas = ({selectedColor, pickerMode, captureRef, triggerClear, setTriggerClear, eraserMode, setEraserMode}: CanvasProps) => {
-  const getCursorIcon = () => {
+  const CursorIcon = () => {
     if (pickerMode) {
       return <Icon28EditOutline style={{color: 'var(--accent)'}} width={14} height={14}/>;
     }
@@ -92,7 +92,7 @@ const Canvas = ({selectedColor, pickerMode, captureRef, triggerClear, setTrigger
   };
 
   return (<div className={classNames(styles.canvas, 'canvasProto')}>
-    <Cursor icon={getCursorIcon()}/>
+    <Cursor><CursorIcon/></Cursor>
     <div id={'capture'} className={styles.inner} ref={captureRef}>
       {[...Array(28)]
           .map(() => [...Array(28)]
