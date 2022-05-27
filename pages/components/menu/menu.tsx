@@ -9,6 +9,7 @@ import {
   Icon20PalleteOutline,
   Icon20DownloadOutline,
   Icon28EditOutline,
+  Icon12CancelOutline,
 } from '@vkontakte/icons';
 import {Dropdown} from '@vkontakte/vkui/unstable';
 
@@ -17,6 +18,7 @@ interface Props {
     pickerMode: boolean,
     setSelectedColor: Dispatch<SetStateAction<string>>,
     setPikerMode: Dispatch<SetStateAction<boolean>>,
+    setTriggerClear: Dispatch<SetStateAction<boolean>>,
     captureRef: Ref<HTMLDivElement>
 }
 
@@ -37,6 +39,7 @@ const Menu = (
       selectedColor,
       pickerMode,
       setSelectedColor,
+      setTriggerClear,
       setPikerMode,
     }: Props) => {
   const [shown, setShown] = useState(false);
@@ -56,6 +59,10 @@ const Menu = (
         });
   };
 
+  const clearCanvas = (): void => {
+    setTriggerClear(true);
+  };
+
   function invertHex(hex: string): string {
     return (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase();
   }
@@ -72,7 +79,7 @@ const Menu = (
       shown={shown}
       onShownChange={setShown}
       action="click"
-      placement="right"
+      placement="top"
       content={
         <Div>
           <SketchPicker
@@ -95,6 +102,13 @@ const Menu = (
       mode={'tertiary'}
       onClick={exportAsImage}>
       <Icon20DownloadOutline width={14} height={14}/>
+    </Button>
+    <Button
+      className={styles.menuItem}
+      appearance={'neutral'}
+      mode={'tertiary'}
+      onClick={clearCanvas}>
+      <Icon12CancelOutline className={styles.negative} width={14} height={14}/>
     </Button>
   </div>);
 };

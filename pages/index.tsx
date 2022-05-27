@@ -10,6 +10,7 @@ function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
   const [pickerMode, setPikerMode] = useState<boolean>(false);
   const [isSSR, setIsSSR] = useState(true);
+  const [triggerClear, setTriggerClear] = useState(false);
   const captureRef = useRef(null);
 
   bridge.send('VKWebAppInit');
@@ -19,13 +20,15 @@ function HomePage() {
   }, []);
 
   return <div className={styles.main}>
+    <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
+      setTriggerClear={setTriggerClear}
+      pickerMode={pickerMode} captureRef={captureRef}/>
     {!isSSR && <Menu selectedColor={selectedColor}
       setSelectedColor={setSelectedColor}
       captureRef={captureRef}
+      setTriggerClear={setTriggerClear}
       setPikerMode={setPikerMode}
       pickerMode={pickerMode}/>}
-    <Canvas selectedColor={selectedColor}
-      pickerMode={pickerMode} captureRef={captureRef}/>
   </div>;
 }
 
