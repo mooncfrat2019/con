@@ -9,7 +9,7 @@ import {
   Icon20PalleteOutline,
   Icon20DownloadOutline,
   Icon28EditOutline,
-  Icon12CancelOutline,
+  Icon12CancelOutline, Icon16WindRain,
 } from '@vkontakte/icons';
 import {Dropdown} from '@vkontakte/vkui/unstable';
 
@@ -19,7 +19,9 @@ interface Props {
     setSelectedColor: Dispatch<SetStateAction<string>>,
     setPikerMode: Dispatch<SetStateAction<boolean>>,
     setTriggerClear: Dispatch<SetStateAction<boolean>>,
-    captureRef: Ref<HTMLDivElement>
+    captureRef: Ref<HTMLDivElement>,
+    eraserMode: boolean,
+    setEraserMode: Dispatch<SetStateAction<boolean>>,
 }
 
 export interface RGBA {
@@ -41,6 +43,8 @@ const Menu = (
       setSelectedColor,
       setTriggerClear,
       setPikerMode,
+      eraserMode,
+      setEraserMode,
     }: Props) => {
   const [shown, setShown] = useState(false);
   const [palletIconColor, setPalletIconColor] = useState(selectedColor);
@@ -68,13 +72,36 @@ const Menu = (
   }
 
   return (<div className={styles.menu}>
-    <Button
-      className={styles.menuItem}
-      appearance={(pickerMode) ? 'accent' : 'neutral'}
-      mode={(pickerMode) ? 'primary' : 'secondary'}
-      onClick={() => setPikerMode((prv) => !prv)}>
-      <Icon28EditOutline width={14} height={14}/>
-    </Button>
+    <Dropdown
+      action={'hover'}
+      placement="bottom"
+      content={<Div>
+              Редактирование
+      </Div>}
+    >
+      <Button
+        className={styles.menuItem}
+        appearance={(pickerMode) ? 'accent' : 'neutral'}
+        mode={(pickerMode) ? 'primary' : 'secondary'}
+        onClick={() => setPikerMode((prv) => !prv)}>
+        <Icon28EditOutline width={14} height={14}/>
+      </Button>
+    </Dropdown>
+    <Dropdown
+      action={'hover'}
+      placement="bottom"
+      content={<Div>
+        Ластик
+      </Div>}
+    >
+      <Button
+        className={styles.menuItem}
+        appearance={(eraserMode) ? 'accent' : 'neutral'}
+        mode={(eraserMode) ? 'primary' : 'secondary'}
+        onClick={() => setEraserMode((prv) => !prv)}>
+        <Icon16WindRain width={14} height={14}/>
+      </Button>
+    </Dropdown>
     <Dropdown
       shown={shown}
       onShownChange={setShown}
@@ -96,20 +123,36 @@ const Menu = (
         <Icon20PalleteOutline style={{color: palletIconColor}} width={14} height={14}/>
       </Button>
     </Dropdown>
-    <Button
-      className={styles.menuItem}
-      appearance={'accent'}
-      mode={'tertiary'}
-      onClick={exportAsImage}>
-      <Icon20DownloadOutline width={14} height={14}/>
-    </Button>
-    <Button
-      className={styles.menuItem}
-      appearance={'neutral'}
-      mode={'tertiary'}
-      onClick={clearCanvas}>
-      <Icon12CancelOutline className={styles.negative} width={14} height={14}/>
-    </Button>
+    <Dropdown
+      action={'hover'}
+      placement="bottom"
+      content={<Div>
+              Скачать
+      </Div>}
+    >
+      <Button
+        className={styles.menuItem}
+        appearance={'accent'}
+        mode={'tertiary'}
+        onClick={exportAsImage}>
+        <Icon20DownloadOutline width={14} height={14}/>
+      </Button>
+    </Dropdown>
+    <Dropdown
+      action={'hover'}
+      placement="bottom"
+      content={<Div>
+              Очистить
+      </Div>}
+    >
+      <Button
+        className={styles.menuItem}
+        appearance={'neutral'}
+        mode={'tertiary'}
+        onClick={clearCanvas}>
+        <Icon12CancelOutline className={styles.negative} width={14} height={14}/>
+      </Button>
+    </Dropdown>
   </div>);
 };
 

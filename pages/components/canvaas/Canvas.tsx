@@ -4,13 +4,21 @@ import {SketchPicker} from 'react-color';
 
 import styles from './Canvas.module.css';
 import {Dropdown} from '@vkontakte/vkui/unstable';
-import {Div} from '@vkontakte/vkui';
+import {classNames, Div} from '@vkontakte/vkui';
+import Cursor from '../cursor/Cursor';
+import {
+  Icon16WindRain,
+  Icon24AddCircleDottedOutline,
+  Icon28EditOutline,
+} from '@vkontakte/icons';
 
 interface CanvasCellProps {
   selectedColor: string,
   pickerMode: boolean,
   triggerClear: boolean,
   setTriggerClear: Dispatch<SetStateAction<boolean>>,
+  eraserMode: boolean,
+  setEraserMode: Dispatch<SetStateAction<boolean>>,
 }
 
 interface CanvasProps {
@@ -19,6 +27,8 @@ interface CanvasProps {
   triggerClear: boolean,
   setTriggerClear: Dispatch<SetStateAction<boolean>>,
   captureRef: Ref<HTMLDivElement>,
+  eraserMode: boolean,
+  setEraserMode: Dispatch<SetStateAction<boolean>>,
 }
 
 export interface RGBA {
@@ -33,7 +43,7 @@ export interface ColorPickerVAlue {
   rgb: RGBA
 }
 
-const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear}: CanvasCellProps) => {
+const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, eraserMode, setEraserMode}: CanvasCellProps) => {
   const [shown, setShown] = useState(false);
   const [color, setColor] = useState('#ffffff');
 
@@ -70,12 +80,25 @@ const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear}: 
   </Dropdown> : <div className={styles.cell} style={style} onClick={() => setColor(selectedColor)} />;
 };
 
-const Canvas = ({selectedColor, pickerMode, captureRef, triggerClear, setTriggerClear}: CanvasProps) => {
-  return (<div className={styles.canvas}>
+const Canvas = ({selectedColor, pickerMode, captureRef, triggerClear, setTriggerClear, eraserMode, setEraserMode}: CanvasProps) => {
+  const getCursorIcon = () => {
+    if (pickerMode) {
+      return <Icon28EditOutline style={{color: 'var(--accent)'}} width={14} height={14}/>;
+    }
+    if (eraserMode) {
+      return <Icon16WindRain style={{color: 'var(--accent)'}} width={14} height={14}/>;
+    }
+    return <Icon24AddCircleDottedOutline style={{color: selectedColor}} width={14} height={14}/>;
+  };
+
+  return (<div className={classNames(styles.canvas, 'canvasProto')}>
+    <Cursor icon={getCursorIcon()}/>
     <div id={'capture'} className={styles.inner} ref={captureRef}>
       {[...Array(28)]
           .map(() => [...Array(28)]
               .map((_, index) => <CanvasCell
+                eraserMode={eraserMode}
+                setEraserMode={setEraserMode}
                 setTriggerClear={setTriggerClear}
                 selectedColor={selectedColor}
                 pickerMode={pickerMode}

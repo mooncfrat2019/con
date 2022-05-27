@@ -9,11 +9,18 @@ import bridge from '@vkontakte/vk-bridge';
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
   const [pickerMode, setPikerMode] = useState<boolean>(false);
+  const [eraserMode, setEraserMode] = useState<boolean>(false);
   const [isSSR, setIsSSR] = useState(true);
   const [triggerClear, setTriggerClear] = useState(false);
   const captureRef = useRef(null);
 
   bridge.send('VKWebAppInit');
+
+  useEffect(() => {
+    if (eraserMode) {
+      setSelectedColor('#FFFFFF');
+    }
+  }, [eraserMode]);
 
   useEffect(() => {
     setIsSSR(false);
@@ -22,8 +29,11 @@ function HomePage() {
   return <div className={styles.main}>
     <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
       setTriggerClear={setTriggerClear}
+      eraserMode={eraserMode} setEraserMode={setEraserMode}
       pickerMode={pickerMode} captureRef={captureRef}/>
     {!isSSR && <Menu selectedColor={selectedColor}
+      eraserMode={eraserMode}
+      setEraserMode={setEraserMode}
       setSelectedColor={setSelectedColor}
       captureRef={captureRef}
       setTriggerClear={setTriggerClear}
