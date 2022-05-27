@@ -5,7 +5,6 @@ import {SketchPicker} from 'react-color';
 import styles from './Canvas.module.css';
 import {Dropdown} from '@vkontakte/vkui/unstable';
 import {Div} from '@vkontakte/vkui';
-import {ColorPickerVAlue} from '../interfaces/interfaces';
 
 interface CanvasCellProps {
   selectedColor: string,
@@ -16,6 +15,18 @@ interface CanvasProps {
   selectedColor: string,
   pickerMode: boolean,
   captureRef: Ref<HTMLDivElement>,
+}
+
+export interface RGBA {
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+}
+
+export interface ColorPickerVAlue {
+  hex: string,
+  rgb: RGBA
 }
 
 const CanvasCell = ({selectedColor, pickerMode}: CanvasCellProps) => {

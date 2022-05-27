@@ -11,7 +11,6 @@ import {
   Icon28EditOutline,
 } from '@vkontakte/icons';
 import {Dropdown} from '@vkontakte/vkui/unstable';
-import {ColorPickerVAlue} from '../interfaces/interfaces';
 
 interface Props {
     selectedColor: string,
@@ -19,6 +18,18 @@ interface Props {
     setSelectedColor: Dispatch<SetStateAction<string>>,
     setPikerMode: Dispatch<SetStateAction<boolean>>,
     captureRef: Ref<HTMLDivElement>
+}
+
+export interface RGBA {
+    r: number,
+    g: number,
+    b: number,
+    a: number,
+}
+
+export interface ColorPickerVAlue {
+    hex: string,
+    rgb: RGBA
 }
 
 const Menu = (
