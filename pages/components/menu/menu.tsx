@@ -49,6 +49,16 @@ const Menu = (
   const [shown, setShown] = useState(false);
   const [palletIconColor, setPalletIconColor] = useState(selectedColor);
 
+  const eraseMode = () => {
+    setPikerMode(false);
+    setEraserMode((prv) => !prv);
+  };
+
+  const editMode = () => {
+    setEraserMode(false);
+    setPikerMode((prv) => !prv);
+  };
+
   useEffect(() => {
     setPalletIconColor(`#${invertHex(selectedColor.replace('#', ''))}`);
   }, [selectedColor]);
@@ -83,7 +93,7 @@ const Menu = (
         className={styles.menuItem}
         appearance={(pickerMode) ? 'accent' : 'neutral'}
         mode={(pickerMode) ? 'primary' : 'secondary'}
-        onClick={() => setPikerMode((prv) => !prv)}>
+        onClick={editMode}>
         <Icon28EditOutline width={14} height={14}/>
       </Button>
     </Dropdown>
@@ -98,7 +108,7 @@ const Menu = (
         className={styles.menuItem}
         appearance={(eraserMode) ? 'accent' : 'neutral'}
         mode={(eraserMode) ? 'primary' : 'secondary'}
-        onClick={() => setEraserMode((prv) => !prv)}>
+        onClick={eraseMode}>
         <Icon16WindRain width={14} height={14}/>
       </Button>
     </Dropdown>
