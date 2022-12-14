@@ -30,9 +30,9 @@ const MenuFromFile = (
         <Button
           className={styles.menuItem}
           // @ts-ignore
-          appearance={(hooks[menuItem.id][0]) ? 'accent' : 'neutral'}
+          appearance={hooks[menuItem.id] && (hooks[menuItem.id][0]) ? 'accent' : 'neutral'}
           // @ts-ignore
-          mode={(hooks[menuItem.id][0]) ? 'primary' : 'secondary'}
+          mode={(hooks[menuItem.id] && hooks[menuItem.id][0]) ? 'primary' : 'secondary'}
           // @ts-ignore
           onClick={functionsList[menuItem.id]}>
           {/* @ts-ignore */}

@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Canvas from './components/canvaas/Canvas';
 import styles from '../styles/Home.module.css';
+// @ts-ignore
+import domtoimage from 'dom-to-image';
 import '@vkontakte/vkui/dist/vkui.css';
 import '@vkontakte/vkui/dist/unstable.css';
 import Menu from './components/menu/menu';
@@ -8,7 +10,7 @@ import bridge from '@vkontakte/vk-bridge';
 import MenuFromFile from './components/menu/menuFromFile';
 import {menuList} from '../data/menu';
 import {FunctionListForMenu, Hooks, IconList} from '../data/interfaces';
-import {Icon16WindRain, Icon28EditOutline} from '@vkontakte/icons';
+import {Icon12CancelOutline, Icon16WindRain, Icon20DownloadOutline, Icon28EditOutline} from '@vkontakte/icons';
 
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
@@ -30,6 +32,20 @@ function HomePage() {
     setPikerMode((prv) => !prv);
   };
 
+  const exportAsImage = () => {
+    domtoimage.toJpeg(document.getElementById('capture'), {quality: 1})
+        .then(function(dataUrl: any) {
+          const link = document.createElement('a');
+          link.download = 'My_awesome_pixel_art.jpeg';
+          link.href = dataUrl;
+          link.click();
+        });
+  };
+
+  const clearCanvas = (): void => {
+    setTriggerClear(true);
+  };
+
   useEffect(() => {
     if (eraserMode) {
       setSelectedColor('#FFFFFF');
@@ -45,11 +61,15 @@ function HomePage() {
   const functionsList: FunctionListForMenu = {
     erase,
     edit,
+    download: exportAsImage,
+    clear: clearCanvas,
   };
 
   const iconList: IconList = {
     erase: <Icon16WindRain width={14} height={14}/>,
     edit: <Icon28EditOutline width={14} height={14}/>,
+    download: <Icon20DownloadOutline width={14} height={14}/>,
+    clear: <Icon12CancelOutline width={14} height={14}/>,
   };
 
   useEffect(() => {

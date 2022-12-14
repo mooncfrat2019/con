@@ -19,4 +19,14 @@ export const menuList: Array<menuItem> = [
     type: 'button',
     content: 'Редактирование',
   },
+  {
+    id: 'download',
+    type: 'button',
+    content: 'Скачать',
+  },
+  {
+    id: 'clear',
+    type: 'button',
+    content: 'Очистить',
+  },
 ];

@@ -3,13 +3,8 @@ import styles from './Menu.module.css';
 import {Button, Div} from '@vkontakte/vkui';
 // @ts-ignore
 import {SketchPicker} from 'react-color';
-// @ts-ignore
-import domtoimage from 'dom-to-image';
 import {
   Icon20PalleteOutline,
-  Icon20DownloadOutline,
-  Icon28EditOutline,
-  Icon12CancelOutline, Icon16WindRain,
 } from '@vkontakte/icons';
 import {Dropdown} from '@vkontakte/vkui/unstable';
 
@@ -39,79 +34,21 @@ export interface ColorPickerVAlue {
 const Menu = (
     {
       selectedColor,
-      pickerMode,
       setSelectedColor,
-      setTriggerClear,
-      setPikerMode,
-      eraserMode,
-      setEraserMode,
     }: Props) => {
   const [shown, setShown] = useState(false);
   const [palletIconColor, setPalletIconColor] = useState(selectedColor);
-
-  const eraseMode = () => {
-    setPikerMode(false);
-    setEraserMode((prv) => !prv);
-  };
-
-  const editMode = () => {
-    setEraserMode(false);
-    setPikerMode((prv) => !prv);
-  };
 
   useEffect(() => {
     setPalletIconColor(`#${invertHex(selectedColor.replace('#', ''))}`);
   }, [selectedColor]);
 
-  const exportAsImage = () => {
-    domtoimage.toJpeg(document.getElementById('capture'), {quality: 1})
-        .then(function(dataUrl: any) {
-          const link = document.createElement('a');
-          link.download = 'My_awesome_pixel_art.jpeg';
-          link.href = dataUrl;
-          link.click();
-        });
-  };
-
-  const clearCanvas = (): void => {
-    setTriggerClear(true);
-  };
 
   function invertHex(hex: string): string {
     return (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase();
   }
 
   return (<div className={styles.menu}>
-    <Dropdown
-      action={'hover'}
-      placement="bottom"
-      content={<Div>
-              Редактирование
-      </Div>}
-    >
-      <Button
-        className={styles.menuItem}
-        appearance={(pickerMode) ? 'accent' : 'neutral'}
-        mode={(pickerMode) ? 'primary' : 'secondary'}
-        onClick={editMode}>
-        <Icon28EditOutline width={14} height={14}/>
-      </Button>
-    </Dropdown>
-    <Dropdown
-      action={'hover'}
-      placement="bottom"
-      content={<Div>
-        Ластик
-      </Div>}
-    >
-      <Button
-        className={styles.menuItem}
-        appearance={(eraserMode) ? 'accent' : 'neutral'}
-        mode={(eraserMode) ? 'primary' : 'secondary'}
-        onClick={eraseMode}>
-        <Icon16WindRain width={14} height={14}/>
-      </Button>
-    </Dropdown>
     <Dropdown
       shown={shown}
       onShownChange={setShown}
@@ -131,36 +68,6 @@ const Menu = (
         style={{backgroundColor: `${selectedColor}`}}
         mode={'tertiary'}>
         <Icon20PalleteOutline style={{color: palletIconColor}} width={14} height={14}/>
-      </Button>
-    </Dropdown>
-    <Dropdown
-      action={'hover'}
-      placement="bottom"
-      content={<Div>
-              Скачать
-      </Div>}
-    >
-      <Button
-        className={styles.menuItem}
-        appearance={'accent'}
-        mode={'tertiary'}
-        onClick={exportAsImage}>
-        <Icon20DownloadOutline width={14} height={14}/>
-      </Button>
-    </Dropdown>
-    <Dropdown
-      action={'hover'}
-      placement="bottom"
-      content={<Div>
-              Очистить
-      </Div>}
-    >
-      <Button
-        className={styles.menuItem}
-        appearance={'neutral'}
-        mode={'tertiary'}
-        onClick={clearCanvas}>
-        <Icon12CancelOutline className={styles.negative} width={14} height={14}/>
       </Button>
     </Dropdown>
   </div>);

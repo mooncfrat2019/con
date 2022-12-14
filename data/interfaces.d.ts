@@ -6,9 +6,16 @@ export interface Hooks {
     undefined: (boolean | (() => boolean))[];
 }
 
-export interface FunctionListForMenu { erase: () => void; edit: () => void; }
+export interface FunctionListForMenu {
+    erase: () => void;
+    edit: () => void;
+    download: () => void;
+    clear: () => void;
+}
 
 export interface IconList {
     erase: ReactElement<any, any>,
     edit: ReactElement<any, any>,
+    download: ReactElement<any, any>,
+    clear: ReactElement<any, any>,
 }
