@@ -20,7 +20,7 @@ const MenuFromFile = (
       iconList,
     }: Props) => {
   return (<div className={styles.menu}>
-    {menuList.map((menuItem, index) => {
+    {(menuList && menuList.length) ? menuList.map((menuItem, index) => {
       return (<Dropdown
         key={index}
         action={'hover'}
@@ -39,7 +39,7 @@ const MenuFromFile = (
           {iconList[menuItem.id]}
         </Button>
       </Dropdown>);
-    })}
+    }) : null }
   </div>);
 };
 
