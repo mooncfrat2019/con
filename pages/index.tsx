@@ -11,6 +11,7 @@ import MenuFromFile from './components/menu/menuFromFile';
 import {menuList} from '../data/menu';
 import {FunctionListForMenu, Hooks, IconList} from '../data/interfaces';
 import {Icon12CancelOutline, Icon16WindRain, Icon20DownloadOutline, Icon28EditOutline} from '@vkontakte/icons';
+import SlidersCanvas from './components/menu/SlidersCanvas';
 
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
@@ -19,6 +20,8 @@ function HomePage() {
   const [isSSR, setIsSSR] = useState(true);
   const [triggerClear, setTriggerClear] = useState(false);
   const captureRef = useRef(null);
+  const [cursorSize] = useState(8);
+  const [range, setRange] = useState(28);
 
   bridge.send('VKWebAppInit');
 
@@ -78,9 +81,11 @@ function HomePage() {
 
   return <div className={styles.main}>
     <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
-      setTriggerClear={setTriggerClear}
+      setTriggerClear={setTriggerClear} cursorSize={cursorSize}
       eraserMode={eraserMode} setEraserMode={setEraserMode}
-      pickerMode={pickerMode} captureRef={captureRef}/>
+      pickerMode={pickerMode} captureRef={captureRef}
+      range={range}
+    />
     {!isSSR && <Menu selectedColor={selectedColor}
       eraserMode={eraserMode}
       setEraserMode={setEraserMode}
@@ -94,6 +99,8 @@ function HomePage() {
       hooks={hooks}
       functionsList={functionsList}
       menuList={menuList}/>}
+    {/* !isSSR && <Sliders setCursorSize={setCursorSize}/> */}
+    {!isSSR && <SlidersCanvas range={range} setRange={setRange}/>}
   </div>;
 }
 

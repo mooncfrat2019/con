@@ -29,6 +29,8 @@ interface CanvasProps {
   captureRef: Ref<HTMLDivElement>,
   eraserMode: boolean,
   setEraserMode: Dispatch<SetStateAction<boolean>>,
+  cursorSize: number,
+  range: number,
 }
 
 export interface RGBA {
@@ -80,22 +82,36 @@ const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, e
   </Dropdown> : <div className={styles.cell} style={style} onClick={() => setColor(selectedColor)} />;
 };
 
-const Canvas = ({selectedColor, pickerMode, captureRef, triggerClear, setTriggerClear, eraserMode, setEraserMode}: CanvasProps) => {
+const Canvas = ({
+  selectedColor,
+  pickerMode,
+  captureRef,
+  triggerClear,
+  setTriggerClear,
+  eraserMode,
+  setEraserMode,
+  cursorSize,
+  range,
+}: CanvasProps) => {
+  const calculateSize = cursorSize + 6;
+
   const CursorIcon = () => {
     if (pickerMode) {
-      return <Icon28EditOutline style={{color: 'var(--accent)'}} width={14} height={14}/>;
+      return <Icon28EditOutline style={{color: 'var(--accent)'}} width={calculateSize} height={calculateSize}/>;
     }
     if (eraserMode) {
-      return <Icon16WindRain style={{color: 'var(--accent)'}} width={14} height={14}/>;
+      return <Icon16WindRain style={{color: 'var(--accent)'}} width={calculateSize} height={calculateSize}/>;
     }
-    return <Icon24AddCircleDottedOutline style={{color: selectedColor}} width={14} height={14}/>;
+    return <Icon24AddCircleDottedOutline style={{color: selectedColor}} width={calculateSize} height={calculateSize}/>;
   };
 
-  return (<div className={classNames(styles.canvas, 'canvasProto')}>
-    <Cursor><CursorIcon/></Cursor>
-    <div id={'capture'} className={styles.inner} ref={captureRef}>
-      {[...Array(28)]
-          .map(() => [...Array(28)]
+  const getCanvasSize = (n: number) => n + range;
+
+  return (<div className={classNames(styles.canvas, 'canvasProto')} style={{width: `${getCanvasSize(300)}px`, height: `${getCanvasSize(300)}px`}}>
+    <Cursor cursorSize={cursorSize}><CursorIcon/></Cursor>
+    <div id={'capture'} className={styles.inner} style={{width: `${getCanvasSize(282)}px`, height: `${getCanvasSize(282)}px`}} ref={captureRef}>
+      {[...Array(range)]
+          .map(() => [...Array(range)]
               .map((_, index) => <CanvasCell
                 eraserMode={eraserMode}
                 setEraserMode={setEraserMode}

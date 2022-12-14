@@ -38,3 +38,7 @@
 .negative {
   color: var(--destructive);
 }
+
+.sliderCustom {
+  width: 100%;
+}

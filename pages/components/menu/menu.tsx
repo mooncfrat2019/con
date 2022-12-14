@@ -43,7 +43,6 @@ const Menu = (
     setPalletIconColor(`#${invertHex(selectedColor.replace('#', ''))}`);
   }, [selectedColor]);
 
-
   function invertHex(hex: string): string {
     return (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase();
   }

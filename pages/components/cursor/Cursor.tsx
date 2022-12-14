@@ -4,7 +4,8 @@ import styles from './Cursor.module.css';
 import {classNames} from '@vkontakte/vkui';
 
 interface CursorProps {
-    children: React.ReactElement,
+  children: React.ReactElement,
+  cursorSize: number,
 }
 
 type Cursor = React.FC<CursorProps>
@@ -15,13 +16,10 @@ interface MousePosition {
 }
 
 type UseMousePosition = () => MousePosition;
-const Cursor: Cursor = ({children}) => {
+
+const Cursor: Cursor = ({children, cursorSize}) => {
   const useMousePosition: UseMousePosition = () => {
     const [mousePosition, setMousePosition] = useState<MousePosition>({x: 0, y: 0});
-
-    useEffect(() => {
-      console.log('mousePosition', mousePosition);
-    }, [mousePosition]);
 
     useEffect(() => {
       const mouseMoveHandler = (event: MouseEvent) => {
@@ -38,6 +36,7 @@ const Cursor: Cursor = ({children}) => {
     return mousePosition;
   };
   const mousePosition = useMousePosition();
+
 
   return (
     <div className={classNames(styles.cursor, 'cursorProto')}
