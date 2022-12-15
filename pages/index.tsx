@@ -18,6 +18,8 @@ import {
   Icon20DeleteOutlineAndroid,
 } from '@vkontakte/icons';
 import SlidersCanvas from './components/menu/SlidersCanvas';
+import {Controls} from './components/UI/Controls';
+import {TopForms} from './components/UI/TopForms';
 
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
@@ -29,6 +31,7 @@ function HomePage() {
   const captureRef = useRef(null);
   const [cursorSize] = useState(8);
   const [range, setRange] = useState(32);
+  const [currentCanvas, setCurrentCanvas] = useState(1);
 
   bridge.send('VKWebAppInit');
 
@@ -89,12 +92,14 @@ function HomePage() {
   }, []);
 
   return <div className={styles.main}>
+    <TopForms currentCanvas={currentCanvas}/>
+    <Controls currentCanvas={currentCanvas} setCurrentCanvas={setCurrentCanvas}/>
     <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
       triggerFill={triggerFill} setTriggerFill={setTriggerFill}
       setTriggerClear={setTriggerClear} cursorSize={cursorSize}
       eraserMode={eraserMode} setEraserMode={setEraserMode}
       pickerMode={pickerMode} captureRef={captureRef}
-      range={range}
+      range={range} currentCanvas={currentCanvas}
     />
     {!isSSR && <Menu selectedColor={selectedColor}
       eraserMode={eraserMode}

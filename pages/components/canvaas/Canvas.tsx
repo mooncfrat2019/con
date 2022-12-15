@@ -35,6 +35,7 @@ interface CanvasProps {
   setEraserMode: Dispatch<SetStateAction<boolean>>,
   cursorSize: number,
   range: number,
+  currentCanvas: number,
 }
 
 export interface RGBA {
@@ -104,6 +105,7 @@ const Canvas = ({
   range,
   triggerFill,
   setTriggerFill,
+  currentCanvas,
 }: CanvasProps) => {
   const calculateSize = cursorSize + 6;
 
@@ -119,22 +121,30 @@ const Canvas = ({
 
   const getCanvasSize = (n: number) => n + range;
 
-  return (<div className={classNames(styles.canvas, 'canvasProto')} style={{width: `${getCanvasSize(300)}px`, height: `${getCanvasSize(300)}px`}}>
-    <Cursor cursorSize={cursorSize}><CursorIcon/></Cursor>
-    <div id={'capture'} className={styles.inner} style={{width: `${getCanvasSize(282)}px`, height: `${getCanvasSize(282)}px`}} ref={captureRef}>
-      {[...Array(range)]
-          .map(() => [...Array(range)]
-              .map((_, index) => <CanvasCell
-                eraserMode={eraserMode}
-                setEraserMode={setEraserMode}
-                setTriggerClear={setTriggerClear}
-                selectedColor={selectedColor}
-                pickerMode={pickerMode}
-                triggerClear={triggerClear}
-                triggerFill={triggerFill}
-                setTriggerFill={setTriggerFill}
-                key={index}/>))}
+  return (
+    <div className={classNames(styles.canvasNest)} style={{width: `${getCanvasSize(300)}px`, height: `${getCanvasSize(300)}px`}}>
+      {Array.from(Array(20).keys()).sort((a) => {
+        return a - currentCanvas;
+      }).map((k) => {
+        return (<div key={k} className={classNames(styles.canvas, 'canvasProto')} style={{width: `${getCanvasSize(300)}px`, height: `${getCanvasSize(300)}px`}}>
+          <Cursor cursorSize={cursorSize}><CursorIcon/></Cursor>
+          <div id={'capture'} className={styles.inner} style={{width: `${getCanvasSize(282)}px`, height: `${getCanvasSize(282)}px`}} ref={captureRef}>
+            {[...Array(range)]
+                .map(() => [...Array(range)]
+                    .map((_, index) => <CanvasCell
+                      eraserMode={eraserMode}
+                      setEraserMode={setEraserMode}
+                      setTriggerClear={setTriggerClear}
+                      selectedColor={selectedColor}
+                      pickerMode={pickerMode}
+                      triggerClear={triggerClear}
+                      triggerFill={triggerFill}
+                      setTriggerFill={setTriggerFill}
+                      key={index}/>))}
+          </div>
+        </div>);
+      })}
     </div>
-  </div>);
+  );
 };
 export default Canvas;
