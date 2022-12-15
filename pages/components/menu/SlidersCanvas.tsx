@@ -18,7 +18,7 @@ const SlidersCanvas = ({range, setRange}: Props) => {
       <Slider
         className={styles.sliderCustom}
         step={2}
-        min={28}
+        min={32}
         max={86}
         value={range}
         onChange={setRange}

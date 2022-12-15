@@ -11,6 +11,7 @@ export interface FunctionListForMenu {
     edit: () => void;
     download: () => void;
     clear: () => void;
+    fill: () => void;
 }
 
 export interface IconList {
@@ -18,4 +19,5 @@ export interface IconList {
     edit: ReactElement<any, any>,
     download: ReactElement<any, any>,
     clear: ReactElement<any, any>,
+    fill: ReactElement<any, any>,
 }

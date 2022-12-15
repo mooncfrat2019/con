@@ -1,6 +1,6 @@
 import React, {Dispatch, Ref, SetStateAction, useEffect, useState} from 'react';
 import styles from './Menu.module.css';
-import {Button, Div} from '@vkontakte/vkui';
+import {Button} from '@vkontakte/vkui';
 // @ts-ignore
 import {SketchPicker} from 'react-color';
 import {
@@ -14,6 +14,7 @@ interface Props {
     setSelectedColor: Dispatch<SetStateAction<string>>,
     setPikerMode: Dispatch<SetStateAction<boolean>>,
     setTriggerClear: Dispatch<SetStateAction<boolean>>,
+    setTriggerFill: Dispatch<SetStateAction<boolean>>,
     captureRef: Ref<HTMLDivElement>,
     eraserMode: boolean,
     setEraserMode: Dispatch<SetStateAction<boolean>>,
@@ -26,7 +27,7 @@ export interface RGBA {
     a: number,
 }
 
-export interface ColorPickerVAlue {
+export interface ColorPickerValue {
     hex: string,
     rgb: RGBA
 }
@@ -54,12 +55,9 @@ const Menu = (
       action="click"
       placement="top"
       content={
-        <Div>
-          <SketchPicker
-            color={ selectedColor }
-            onChangeComplete={ (c: ColorPickerVAlue) => setSelectedColor(c.hex) }
-          />
-        </Div>
+        <div>
+          <SketchPicker color={ selectedColor } onChangeComplete={ (c) => setSelectedColor(c.hex) }/>
+        </div>
       }
     >
       <Button

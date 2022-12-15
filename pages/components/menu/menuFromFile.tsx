@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import styles from './Menu.module.css';
 import {Button, Div} from '@vkontakte/vkui';
 import {Dropdown} from '@vkontakte/vkui/unstable';
@@ -9,6 +9,7 @@ interface Props {
     menuList: menuList,
     hooks: Hooks,
     functionsList: FunctionListForMenu,
+    setTriggerFill: Dispatch<SetStateAction<boolean>>,
     iconList: IconList
 }
 

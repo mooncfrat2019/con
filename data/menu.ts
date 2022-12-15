@@ -29,4 +29,9 @@ export const menuList: Array<menuItem> = [
     type: 'button',
     content: 'Очистить',
   },
+  {
+    id: 'fill',
+    type: 'button',
+    content: 'Заливка',
+  },
 ];

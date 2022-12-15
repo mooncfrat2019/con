@@ -19,6 +19,8 @@ interface CanvasCellProps {
   setTriggerClear: Dispatch<SetStateAction<boolean>>,
   eraserMode: boolean,
   setEraserMode: Dispatch<SetStateAction<boolean>>,
+  triggerFill: boolean,
+  setTriggerFill: Dispatch<SetStateAction<boolean>>,
 }
 
 interface CanvasProps {
@@ -26,6 +28,8 @@ interface CanvasProps {
   pickerMode: boolean,
   triggerClear: boolean,
   setTriggerClear: Dispatch<SetStateAction<boolean>>,
+  triggerFill: boolean,
+  setTriggerFill: Dispatch<SetStateAction<boolean>>,
   captureRef: Ref<HTMLDivElement>,
   eraserMode: boolean,
   setEraserMode: Dispatch<SetStateAction<boolean>>,
@@ -45,7 +49,7 @@ export interface ColorPickerVAlue {
   rgb: RGBA
 }
 
-const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, eraserMode, setEraserMode}: CanvasCellProps) => {
+const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, triggerFill, setTriggerFill}: CanvasCellProps) => {
   const [shown, setShown] = useState(false);
   const [color, setColor] = useState('#ffffff');
 
@@ -55,6 +59,13 @@ const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, e
       setTriggerClear(false);
     }
   }, [triggerClear]);
+
+  useEffect(() => {
+    if (triggerFill) {
+      setColor(selectedColor);
+      setTriggerFill(false);
+    }
+  }, [triggerFill]);
 
   const handleChange = (c: ColorPickerVAlue): void => {
     if (pickerMode) setColor(c.hex);
@@ -71,9 +82,8 @@ const CanvasCell = ({selectedColor, pickerMode, triggerClear, setTriggerClear, e
     placement="right"
     content={
       <Div>
-        <SketchPicker
-          color={ color }
-          onChangeComplete={ handleChange }
+        {/* @ts-ignore */}
+        <SketchPicker color={ color } onChangeComplete={ handleChange }
         />
       </Div>
     }
@@ -92,6 +102,8 @@ const Canvas = ({
   setEraserMode,
   cursorSize,
   range,
+  triggerFill,
+  setTriggerFill,
 }: CanvasProps) => {
   const calculateSize = cursorSize + 6;
 
@@ -119,6 +131,8 @@ const Canvas = ({
                 selectedColor={selectedColor}
                 pickerMode={pickerMode}
                 triggerClear={triggerClear}
+                triggerFill={triggerFill}
+                setTriggerFill={setTriggerFill}
                 key={index}/>))}
     </div>
   </div>);

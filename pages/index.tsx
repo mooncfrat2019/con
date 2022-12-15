@@ -10,7 +10,13 @@ import bridge from '@vkontakte/vk-bridge';
 import MenuFromFile from './components/menu/menuFromFile';
 import {menuList} from '../data/menu';
 import {FunctionListForMenu, Hooks, IconList} from '../data/interfaces';
-import {Icon12CancelOutline, Icon16WindRain, Icon20DownloadOutline, Icon28EditOutline} from '@vkontakte/icons';
+import {
+  Icon12CancelOutline,
+  Icon16WindRain,
+  Icon20DownloadOutline,
+  Icon28EditOutline,
+  Icon20DeleteOutlineAndroid,
+} from '@vkontakte/icons';
 import SlidersCanvas from './components/menu/SlidersCanvas';
 
 function HomePage() {
@@ -19,9 +25,10 @@ function HomePage() {
   const [eraserMode, setEraserMode] = useState<boolean>(false);
   const [isSSR, setIsSSR] = useState(true);
   const [triggerClear, setTriggerClear] = useState(false);
+  const [triggerFill, setTriggerFill] = useState(false);
   const captureRef = useRef(null);
   const [cursorSize] = useState(8);
-  const [range, setRange] = useState(28);
+  const [range, setRange] = useState(32);
 
   bridge.send('VKWebAppInit');
 
@@ -66,6 +73,7 @@ function HomePage() {
     edit,
     download: exportAsImage,
     clear: clearCanvas,
+    fill: () => setTriggerFill(true),
   };
 
   const iconList: IconList = {
@@ -73,6 +81,7 @@ function HomePage() {
     edit: <Icon28EditOutline width={14} height={14}/>,
     download: <Icon20DownloadOutline width={14} height={14}/>,
     clear: <Icon12CancelOutline width={14} height={14}/>,
+    fill: <Icon20DeleteOutlineAndroid width={14} height={14}/>,
   };
 
   useEffect(() => {
@@ -81,6 +90,7 @@ function HomePage() {
 
   return <div className={styles.main}>
     <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
+      triggerFill={triggerFill} setTriggerFill={setTriggerFill}
       setTriggerClear={setTriggerClear} cursorSize={cursorSize}
       eraserMode={eraserMode} setEraserMode={setEraserMode}
       pickerMode={pickerMode} captureRef={captureRef}
@@ -92,9 +102,11 @@ function HomePage() {
       setSelectedColor={setSelectedColor}
       captureRef={captureRef}
       setTriggerClear={setTriggerClear}
+      setTriggerFill={setTriggerFill}
       setPikerMode={setPikerMode}
       pickerMode={pickerMode}/>}
     {!isSSR && <MenuFromFile
+      setTriggerFill={setTriggerFill}
       iconList={iconList}
       hooks={hooks}
       functionsList={functionsList}
