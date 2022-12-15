@@ -18,8 +18,8 @@ import {
   Icon20DeleteOutlineAndroid,
 } from '@vkontakte/icons';
 import SlidersCanvas from './components/menu/SlidersCanvas';
-import {Controls} from './components/UI/Controls';
-import {TopForms} from './components/UI/TopForms';
+import Controls from './components/UI/Controls';
+import TopForms from './components/UI/TopForms';
 
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
@@ -33,7 +33,7 @@ function HomePage() {
   const [range, setRange] = useState(32);
   const [currentCanvas, setCurrentCanvas] = useState(1);
 
-  bridge.send('VKWebAppInit');
+  bridge.send('VKWebAppInit').then((r) => console.log(r));
 
   const erase = () => {
     setPikerMode(false);

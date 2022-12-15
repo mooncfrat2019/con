@@ -8,8 +8,7 @@ interface Controls {
   currentCanvas: number,
 }
 
-// eslint-disable-next-line no-unused-vars
-export const Controls = ({setCurrentCanvas, currentCanvas}: Controls) => {
+const Controls = ({setCurrentCanvas, currentCanvas}: Controls) => {
   return (<div className={styles.controls}>
     <IconButton disabled={currentCanvas <= 1} className={styles.control} onClick={() => setCurrentCanvas((prev: number) => {
       if (prev > 1) {
@@ -29,3 +28,5 @@ export const Controls = ({setCurrentCanvas, currentCanvas}: Controls) => {
     </IconButton>
   </div>);
 };
+
+export default Controls;
