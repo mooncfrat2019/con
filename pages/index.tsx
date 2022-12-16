@@ -20,6 +20,7 @@ import {
 import SlidersCanvas from './components/menu/SlidersCanvas';
 import Controls from './components/UI/Controls';
 import TopForms from './components/UI/TopForms';
+import Loader from './components/loaders/Loader';
 
 function HomePage() {
   const [selectedColor, setSelectedColor] = useState<string>('#000000');
@@ -32,8 +33,17 @@ function HomePage() {
   const [cursorSize] = useState(8);
   const [range, setRange] = useState(32);
   const [currentCanvas, setCurrentCanvas] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [userInfo, setUserInfo] = useState({});
 
   bridge.send('VKWebAppInit').then((r) => console.log(r));
+  bridge.send('VKWebAppGetUserInfo').then((r) => {
+    setUserInfo(r);
+    setIsLoading(false);
+  }).catch(() => {
+    setIsLoading(false);
+  });
 
   const erase = () => {
     setPikerMode(false);
@@ -91,7 +101,7 @@ function HomePage() {
     setIsSSR(false);
   }, []);
 
-  return <div className={styles.main}>
+  return (isLoading) ? <Loader/> : <div className={styles.main}>
     <TopForms currentCanvas={currentCanvas}/>
     <Controls currentCanvas={currentCanvas} setCurrentCanvas={setCurrentCanvas}/>
     <Canvas selectedColor={selectedColor} triggerClear={triggerClear}
